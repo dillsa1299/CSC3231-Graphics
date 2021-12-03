@@ -10,10 +10,6 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    public int friendsRescued = 0;
-    public Transform boat;
-    public Text uiInfo;
-
     public Vector3 startPos;
 
     // Start is called before the first frame update
@@ -28,22 +24,6 @@ public class Player : MonoBehaviour
         if (Input.GetKey(KeyCode.H))
         {
             Teleport(startPos);
-        }
-
-        if ((Vector3.Distance(boat.transform.position, transform.position) < 12f))
-        {
-            if (friendsRescued < 3)
-            {
-                uiInfo.text = "You haven't rescued all of your friends!";
-            }
-            else
-            {
-                uiInfo.text = "Lets go home!";
-            }
-        }
-        else
-        {
-            uiInfo.text = "";
         }
     }
 

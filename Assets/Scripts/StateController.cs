@@ -6,6 +6,7 @@ public class StateController : MonoBehaviour
 {
 
     public GameObject MenuUI;
+    public LightingManager DayNight;
     public Camera menuCam;
     public Camera playerCam;
 
@@ -51,6 +52,7 @@ public class StateController : MonoBehaviour
         MenuUI.gameObject.SetActive(true);
         playerCam.enabled = false;
         menuCam.enabled = true;
+        DayNight.TimeOfDay = 2f;
     }
 
     void StartGameplay()
@@ -59,6 +61,7 @@ public class StateController : MonoBehaviour
         MenuUI.gameObject.SetActive(false);
         playerCam.enabled = true;
         menuCam.enabled = false;
+        DayNight.TimeMultiplier = 0.5f;
     }
 
 }

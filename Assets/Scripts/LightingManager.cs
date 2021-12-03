@@ -14,16 +14,17 @@ public class LightingManager : MonoBehaviour
     [SerializeField] private Light DirectionalLight;
     [SerializeField] private LightingPreset Preset;
     // Variables
-    [SerializeField, Range(0, 24)] private float TimeOfDay;
+    [SerializeField, Range(0, 24)] public float TimeOfDay = 2f;
+    public float TimeMultiplier = 0f;
 
     private void Update()
     {
         if (Preset == null)
             return;
 
-        if (Application.isPlaying)
+        if (Application.isPlaying && TimeOfDay > 1) //Time stops when it reaches ~1AM
         {
-            TimeOfDay += Time.deltaTime;
+            TimeOfDay += Time.deltaTime*TimeMultiplier;
             TimeOfDay %= 24; // Clamp between 0 - 24
             UpdateLighting(TimeOfDay / 24f);
         }

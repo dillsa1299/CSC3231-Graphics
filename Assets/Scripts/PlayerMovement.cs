@@ -12,18 +12,9 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public CharacterController controller;
-    public float moveSpeed = 12f;
-
-    public float gravity = -0.4905f;
-
-    public Transform groundCheck;
-    float groundDistance = 0.4f;
-    public LayerMask groundMask;
-    public float jumpHeight = 300f;
-
-    Vector3 velocity;
-    bool isGrounded;
+    public float moveSpeed = 24f;
     float originalMoveSpeed;
+    Vector3 velocity;
 
     void Start()
     {
@@ -33,17 +24,9 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-        //Creates small sphere at feet of player and checks for collision
-
-        if (isGrounded && velocity.y < 0) //Stops velocity from gravity from constantly increasing
-        {
-            velocity.y = -2f;
-        }
-
         if (Input.GetKey("left shift")) //Player sprints whilst holding shift
         {
-            moveSpeed = originalMoveSpeed * 1.5f;
+            moveSpeed = originalMoveSpeed * 5f;
         }
         else
         {
@@ -57,12 +40,19 @@ public class PlayerMovement : MonoBehaviour
 
         controller.Move(move * moveSpeed * Time.deltaTime);
 
-        if(Input.GetButtonDown("Jump") && isGrounded) //Jumps if player is on ground
+        Vector3 pos = transform.position;
+        if(Input.GetKey(KeyCode.Space)) //Go up
         {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            velocity.y = moveSpeed;
         }
-
-        velocity.y += gravity; //Always applies gravity
+        else if(Input.GetKey(KeyCode.C)) //Go down
+        {
+            velocity.y = -moveSpeed;
+        }
+        else
+        {
+            velocity.y = 0;
+        }
         controller.Move(velocity * Time.deltaTime);
     }
 }

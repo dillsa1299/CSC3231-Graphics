@@ -22,7 +22,7 @@ public class LightingManager : MonoBehaviour
         if (Preset == null)
             return;
 
-        if (Application.isPlaying && TimeOfDay > 1) //Time stops when it reaches ~1AM
+        if (Application.isPlaying)
         {
             TimeOfDay += Time.deltaTime*TimeMultiplier;
             TimeOfDay %= 24; // Clamp between 0 - 24

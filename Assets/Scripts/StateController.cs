@@ -9,6 +9,19 @@ public class StateController : MonoBehaviour
     public LightingManager DayNight;
     public Camera menuCam;
     public Camera playerCam;
+    public GameObject volcanoRock;
+    Vector3 rockStartPos;
+    bool launchedRock = false;
+    public Transform destination;
+
+    public GameObject Environment;
+    public GameObject DamagedEnvironment;
+
+    public GameObject HighSmoke;
+    public GameObject LowSmoke;
+
+    bool crashed = false;
+    float crashTime;
 
     enum GameMode
     {
@@ -22,6 +35,8 @@ public class StateController : MonoBehaviour
     void Start()
     {
         StartMainMenu();
+        rockStartPos = volcanoRock.transform.position;
+        volcanoRock.SetActive(false);
     }
 
     // Update is called once per frame
@@ -33,7 +48,7 @@ public class StateController : MonoBehaviour
                 UpdateMainMenu();
                 break;
             case GameMode.Gameplay:
-                //UpdateGameplay();
+                UpdateGameplay();
                 break;
         }
     }
@@ -43,6 +58,33 @@ public class StateController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space))
         {
             StartGameplay();
+        }
+    }
+
+    void UpdateGameplay()
+    {
+        if (crashed)
+        {
+            crashTime += Time.deltaTime;
+        }
+        if (Input.GetKey(KeyCode.L))
+        {
+            volcanoRock.SetActive(true);
+            volcanoRock.transform.position = rockStartPos;
+            volcanoRock.GetComponent<ParabolaController>().FollowParabola();
+            launchedRock = true;
+        }
+        if (volcanoRock.transform.position.z > 800)
+        {
+            volcanoRock.SetActive(false);
+            Environment.SetActive(false);
+            DamagedEnvironment.SetActive(true);
+            crashed = true;
+        }
+        if (crashTime > 3)
+        {
+            HighSmoke.SetActive(false);
+            LowSmoke.SetActive(true);
         }
     }
 

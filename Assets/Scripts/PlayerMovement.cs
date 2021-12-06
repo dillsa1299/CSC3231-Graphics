@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKey("left shift")) //Player sprints whilst holding shift
         {
-            moveSpeed = originalMoveSpeed * 5f;
+            moveSpeed = originalMoveSpeed * 3f;
         }
         else
         {
